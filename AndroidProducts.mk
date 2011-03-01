@@ -18,4 +18,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/full_fascinate.mk
+    $(LOCAL_DIR)/full_vzwtab.mk
