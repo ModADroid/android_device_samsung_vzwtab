@@ -1,0 +1,2 @@
+add_lunch_combo full_vzwtab-userdebug
+add_lunch_combo full_vzwtab-eng
