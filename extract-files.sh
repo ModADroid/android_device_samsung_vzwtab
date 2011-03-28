@@ -36,6 +36,7 @@ fi
 DIRS="
 app
 bin
+bin/gpsd
 cameradata
 etc/dhcpcd/dhcpcd-hooks
 etc/ppp
@@ -47,6 +48,8 @@ lib/SCH-I800
 media
 tts/lang_pico
 xbin
+usr/keychars
+usr/keylayout
 "
 
 for DIR in $DIRS; do
@@ -69,6 +72,9 @@ bin/hciattach
 bin/btld
 bin/dbus-daemon
 bin/BCM4329B1_002.002.023.0534.0571.hcd
+bin/killmediaserver
+bin/notified_event
+bin/tvoutserver
 
 cameradata/datapattern_420sp.yuv
 cameradata/datapattern_front_420sp.yuv
@@ -82,8 +88,14 @@ etc/ppp/options
 etc/ppp/pap-secrets
 etc/vold.conf
 etc/vold.fstab
+etc/wifi/nvram_mfg_lna.txt
+etc/wifi/nvram_mfg_nolna.txt
 etc/wifi/nvram_net.txt
 etc/wifi/nvram_mfg.txt
+etc/wifi/nvram_net_2G.txt
+etc/wifi/nvram_net_lna.txt
+etc/wifi/nvram_net_nolna.txt
+bin/mfgloader
 etc/wifi/bcm4329_aps.bin
 etc/wifi/bcm4329_mfg.bin
 etc/wifi/bcm4329_sta.bin
@@ -113,6 +125,13 @@ lib/libseccameraadaptor.so
 lib/libseccamera.so
 lib/libs3cjpeg.so
 lib/libskiagl.so
+lib/libtvoutservice.so
+lib/libtvoutservice.so
+lib/libtvout.so
+lib/lib_tvoutengine.so
+lib/libtvoutfimc.so
+lib/libtvouthdmi.so
+lib/libtvout_jni.so
 
 lib/libhardware.so
 lib/libhardware_legacy.so
@@ -208,6 +227,8 @@ lib/libsolopvwmdrmservice.so
 lib/libsolopvwmdrm.so
 lib/libswmfdocn.so
 lib/libswmfdreg.so
+lib/libedid.so
+lib/libddc.so
 
 lib/libQmageDecoder.so
 lib/libquramgifmovie.so
@@ -230,6 +251,7 @@ lib/hw/copybit.s5pc110.so
 lib/hw/lights.s5pc110.so
 lib/hw/sensors.default.so
 lib/hw/gralloc.s5pc110.so
+lib/egl/egl.cfg
 
 lib/libImmVibeJ.so
 lib/libImmVibe.so
@@ -266,6 +288,25 @@ media/battery_charging_100.qmg
 media/usb_not_charging.qmg
 media/chargingwarning_temp.qmg
 media/chargingwarning_disconnected.qmg
+
+usr/keychars/AT42QT602240_Touchscreen.kcm.bin
+usr/keychars/Broadcom_Bluetooth_HID.kcm.bin
+usr/keychars/gpio-keys.kcm.bin
+usr/keychars/melfas-touchkey.kcm.bin
+usr/keychars/p1_keyboard.kcm.bin
+usr/keychars/qwerty.kcm.bin
+usr/keychars/qwerty2.kcm.bin
+usr/keychars/sec_jack.kcm.bin
+usr/keylayout/AT42QT602240_Touchscreen.kl
+usr/keylayout/AVRCP.kl
+usr/keylayout/Broadcom_Bluetooth_HID.kl
+usr/keylayout/gpio-keys.kl
+usr/keylayout/melfas-touchkey.kl
+usr/keylayout/p1_keyboard.kl
+usr/keylayout/qwerty.kl
+usr/keylayout/sec_jack.kl
+app/Swype.apk
+lib/libSwypeCore.so
 "
 
 for FILE in $FILES; do
@@ -543,6 +584,56 @@ PRODUCT_COPY_FILES += \\
     vendor/samsung/__DEVICE__/proprietary/media/usb_not_charging.qmg:system/media/usb_not_charging.qmg \\
     vendor/samsung/__DEVICE__/proprietary/media/chargingwarning_temp.qmg:system/media/chargingwarning_temp.qmg \\
     vendor/samsung/__DEVICE__/proprietary/media/chargingwarning_disconnected.qmgg:system/media/chargingwarning_disconnected.qmg
+
+#
+# Keyboard
+#
+PRODUCT_COPY_FILES += \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keychars/AT42QT602240_Touchscreen.kcm.bin:system/usr/keychars/AT42QT602240_Touchscreen.kcm.bin \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keychars/Broadcom_Bluetooth_HID.kcm.bin:system/usr/keychars/Broadcom_Bluetooth_HID.kcm.bin \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keychars/gpio-keys.kcm.bin:system/usr/keychars/gpio-keys.kcm.bin \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keychars/melfas-touchkey.kcm.bin:system/usr/keychars/melfas-touchkey.kcm.bin \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keychars/p1_keyboard.kcm.bin:system/usr/keychars/p1_keyboard.kcm.bin \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keychars/qwerty.kcm.bin:system/usr/keychars/qwerty.kcm.bin \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keychars/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keychars/sec_jack.kcm.bin:system/usr/keychars/sec_jack.kcm.bin \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keylayout/AT42QT602240_Touchscreen.kl:system/usr/keylayout/AT42QT602240_Touchscreen.kl \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keylayout/Broadcom_Bluetooth_HID.kl:system/usr/keylayout/Broadcom_Bluetooth_HID.kl \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keylayout/melfas-touchkey.kl:system/usr/keylayout/melfas-touchkey.kl \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl \\
+    vendor/samsung/__DEVICE__/proprietary/usr/keylayout/sec_jack.kl:system/usr/keylayout/sec_jack.kl \\
+    vendor/samsung/__DEVICE__/proprietary/app/Swype.apk:system/app/Swype.apk \\
+    vendor/samsung/__DEVICE__/proprietary/lib/libSwypeCore.so:system/lib/libSwypeCore.so
+
+#
+#Test Files aka other, other stuff
+#
+PRODUCT_COPY_FILES += \\
+    vendor/samsung/__DEVICE__/proprietary/etc/wifi/nvram_mfg_lna.txt:system/etc/wifi/nvram_mfg_lna.txt \\
+    vendor/samsung/__DEVICE__/proprietary/etc/wifi/nvram_mfg_nolna.txt:system/etc/wifi/nvram_mfg_nolna.txt \\
+    vendor/samsung/__DEVICE__/proprietary/etc/wifi/nvram_net_2G.txt:system/etc/wifi/nvram_net_2G.txt \\
+    vendor/samsung/__DEVICE__/proprietary/etc/wifi/nvram_net_lna.txt:system/etc/wifi/nvram_net_lna.txt \\
+    vendor/samsung/__DEVICE__/proprietary/etc/wifi/nvram_net_nolna.txt:system/etc/wifi/nvram_net_nolna.txt \\
+    vendor/samsung/__DEVICE__/proprietary/bin/mfgloader:system/bin/mfgloader\\
+    vendor/samsung/__DEVICE__/proprietary/lib/hw/gralloc.s5pc110.so:system/lib/hw/gralloc.s5pc110.so\\
+    vendor/samsung/__DEVICE__/proprietary/lib/hw/copybit.s5pc110.so:system/lib/hw/copybit.s5pc110.so\\
+    vendor/samsung/__DEVICE__/proprietary/lib/egl/egl.cfg:system/lib/egl/egl.cfg \\
+    vendor/samsung/__DEVICE__/proprietary/lib/egl/libGLES_android.so:system/lib/egl/libGLES_android.so \\
+    vendor/samsung/__DEVICE__/proprietary/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so:system/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so \\
+    vendor/samsung/__DEVICE__/proprietary/lib/egl/libGLESv2_POWERVR_SGX540_120.so:system/lib/egl/libGLESv2_POWERVR_SGX540_120.so \\
+    vendor/samsung/__DEVICE__/proprietary/bin/killmediaserver:system/bin/killmediaserver\\
+    vendor/samsung/__DEVICE__/proprietary/bin/notified_event:system/bin/notified_event\\
+    vendor/samsung/__DEVICE__/proprietary/lib/libtvoutservice.so:system/lib/libtvoutservice.so \\
+    vendor/samsung/__DEVICE__/proprietary/lib/libtvout.so:system/lib/libtvout.so \\
+    vendor/samsung/__DEVICE__/proprietary/lib/lib_tvoutengine.so:system/lib/lib_tvoutengine.so \\
+    vendor/samsung/__DEVICE__/proprietary/lib/libtvoutfimc.so:system/lib/libtvoutfimc.so \\
+    vendor/samsung/__DEVICE__/proprietary/lib/libtvouthdmi.so:system/lib/libtvouthdmi.so \\
+    vendor/samsung/__DEVICE__/proprietary/lib/libtvout_jni.so:system/lib/libtvout_jni.so \\
+    vendor/samsung/__DEVICE__/proprietary/lib/libedid.so:system/lib/libedid.so \\
+    vendor/samsung/__DEVICE__/proprietary/lib/libddc.so:system/lib/libddc.so \\
+    vendor/samsung/__DEVICE__/proprietary/bin/tvoutserver:system/bin/tvoutserver
 
 EOF
 

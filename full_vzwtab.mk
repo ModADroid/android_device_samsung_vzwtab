@@ -36,7 +36,7 @@ $(call inherit-product-if-exists, vendor/samsung/vzwtab/vzwtab-vendor.mk)
 
 ## (3)  Finally, the least specific parts, i.e. the non-GSM-specific aspects
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=180 \
+    ro.sf.lcd_density=200 \
     rild.libpath=/system/lib/libsec-ril40.so \
     rild.libargs=-d[SPACE]/dev/ttyS0 \
     wifi.interface=eth0 \
@@ -163,7 +163,34 @@ PRODUCT_COPY_FILES += \
      device/samsung/vzwtab/prebuilt/keychars/sec_jack.kcm.bin:system/usr/keychars/sec_jack.kcm.bin \
      device/samsung/vzwtab/prebuilt/keychars/melfas-touchkey.kcm.bin:system/usr/keychars/melfas-touchkey.kcm.bin \
      device/samsung/vzwtab/prebuilt/keychars/qwerty.kcm.bin:system/usr/keychars/qwerty.kcm.bin \
-     device/samsung/vzwtab/prebuilt/keychars/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin  
+     device/samsung/vzwtab/prebuilt/keychars/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin 
+
+#
+#Test Files aka other, other stuff
+#
+PRODUCT_COPY_FILES += \
+    vendor/samsung/vzwtab/proprietary/etc/wifi/nvram_mfg_lna.txt:system/etc/wifi/nvram_mfg_lna.txt \
+    vendor/samsung/vzwtab/proprietary/etc/wifi/nvram_mfg_nolna.txt:system/etc/wifi/nvram_mfg_nolna.txt \
+    vendor/samsung/vzwtab/proprietary/etc/wifi/nvram_net_2G.txt:system/etc/wifi/nvram_net_2G.txt \
+    vendor/samsung/vzwtab/proprietary/etc/wifi/nvram_net_lna.txt:system/etc/wifi/nvram_net_lna.txt \
+    vendor/samsung/vzwtab/proprietary/etc/wifi/nvram_net_nolna.txt:system/etc/wifi/nvram_net_nolna.txt \
+    vendor/samsung/vzwtab/proprietary/bin/mfgloader:system/bin/mfgloader\
+    vendor/samsung/vzwtab/proprietary/lib/hw/copybit.s5pc110.so:system/lib/hw/copybit.s5pc110.so\
+    vendor/samsung/vzwtab/proprietary/bin/killmediaserver:system/bin/killmediaserver\
+    vendor/samsung/vzwtab/proprietary/bin/notified_event:system/bin/notified_event\
+    vendor/samsung/vzwtab/proprietary/lib/libtvoutservice.so:system/lib/libtvoutservice.so \
+    vendor/samsung/vzwtab/proprietary/lib/libtvout.so:system/lib/libtvout.so \
+    vendor/samsung/vzwtab/proprietary/lib/lib_tvoutengine.so:system/lib/lib_tvoutengine.so \
+    vendor/samsung/vzwtab/proprietary/lib/libtvoutfimc.so:system/lib/libtvoutfimc.so \
+    vendor/samsung/vzwtab/proprietary/lib/libtvouthdmi.so:system/lib/libtvouthdmi.so \
+    vendor/samsung/vzwtab/proprietary/lib/libtvout_jni.so:system/lib/libtvout_jni.so \
+    vendor/samsung/vzwtab/proprietary/lib/libedid.so:system/lib/libedid.so \
+    vendor/samsung/vzwtab/proprietary/lib/libddc.so:system/lib/libddc.so \
+    vendor/samsung/vzwtab/proprietary/bin/tvoutserver:system/bin/tvoutserver \
+    vendor/samsung/vzwtab/proprietary/lib/libtvout.so:obj/lib/libtvout.so
+
+
+ 
 
 # Kernel
 ifeq ($(TARGET_PREBUILT_KERNEL),)
@@ -187,8 +214,11 @@ PRODUCT_POLICY := android.policy_phone
 PRODUCT_BUILD_PROP_OVERRIDES := BUILD_ID=FROYO BUILD_DISPLAY_ID=FROYO.DJ11 PRODUCT_NAME=SCH-I800 TARGET_DEVICE=SCH-I800 PRODUCT_MODEL=SCH-I800 PRODUCT_BRAND=verizon BUILD_FINGERPRINT=verizon/SCH-I800/SCH-I800/SCH-I800:2.2.1/FROYO/DJ11:user/release-keys PRIVATE_BUILD_DESC="SCH-I800-user 2.2.1 FROYO DJ11 release-keys"
 
 PRODUCT_PROPERTY_OVERRIDES += \
-        ro.modversion=Vanilla_FroYo_Tab-v0.8.1
+        ro.modversion=Vanilla_FroYo_Tab-v0.9.3
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	dalvik.vm.execution-mode=int:jit
+
+PRODUCT_PROPERTY_OVERRIDES += \
+        ro.sf.hwrotation=90
 
