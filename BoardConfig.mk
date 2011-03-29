@@ -111,7 +111,7 @@ BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/vzwtab/default_recovery
 # Device related defines
 TARGET_PREBUILT_KERNEL := device/samsung/vzwtab/kernel
 #TARGET_NO_BUILD_WIFI := true
-TARGET_PREBUILT_MODULES := device/samsung/vzwtab/prebuilt/lib/modules/
+#TARGET_PREBUILT_MODULES := device/samsung/vzwtab/prebuilt/lib/modules/
 BOARD_KERNEL_CMDLINE := no_console_suspend=1 console=null
 BOARD_KERNEL_BASE := 0x02e00000
 
