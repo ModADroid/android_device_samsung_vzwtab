@@ -24,10 +24,13 @@
 # against the traditional rules of inheritance).
 
 #TARGET_IS_GALAXYS := true
+BOARD_USES_FROYO_GRALLOC := true
 BOARD_USES_NEXUS_S_LIBS := true
 BOARD_USES_NEXUS_S_AUDIO := true
 BOARD_USES_OVERLAY := true
+BOARD_USES_COPYBIT := false
 BOARD_USES_FROYO := true
+BOARD_USES_GALAXYS_INIT := true
 
 #USE_CAMERA_STUB := false
 #BOARD_OVERLAY_FORMAT_YCbRc_420_SP := true
@@ -71,16 +74,16 @@ WIFI_FIRMWARE_LOADER := "wlservice"
 BOARD_WPA_SUPPLICANT_DRIVER := WEXT
 WPA_SUPPLICANT_VERSION := VER_0_6_X
 BOARD_WLAN_DEVICE := bcm4329
-#WIFI_DRIVER_FW_STA_PATH := "/system/etc/wifi/bcm4329_sta.bin"
-#WIFI_DRIVER_FW_AP_PATH := "/system/etc/wifi/bcm4329_aps.bin"
+WIFI_DRIVER_FW_STA_PATH := "/system/etc/wifi/bcm4329_sta.bin"
+WIFI_DRIVER_FW_AP_PATH := "/system/etc/wifi/bcm4329_aps.bin"
 WIFI_DRIVER_MODULE_PATH := "/lib/modules/dhd.ko"
 WIFI_DRIVER_MODULE_ARG := "firmware_path=/system/etc/wifi/bcm4329_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt dhd_watchdog_ms=10 dhd_poll=1"
 WIFI_DRIVER_APS_FIRMWARE_NAME := "bcm4329_aps.bin"
 WIFI_DRIVER_STA_FIRMWARE_NAME := "bcm4329_sta.bin"
 WIFI_DRIVER_MODULE_NAME := "dhd"
-#WIFI_IFACE_DIR  := "/data/misc/wifi"
-#WIFI_SUPP_CONFIG_FILE :=  "/data/wifi/bcm_supp.conf"
-#CONFIG_DRIVER_WEXT := true
+WIFI_IFACE_DIR  := "/data/misc/wifi"
+WIFI_SUPP_CONFIG_FILE :=  "/data/wifi/bcm_supp.conf"
+CONFIG_DRIVER_WEXT := true
 
 
 #USB tethering
@@ -108,7 +111,7 @@ BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/vzwtab/default_recovery
 # Device related defines
 TARGET_PREBUILT_KERNEL := device/samsung/vzwtab/kernel
 #TARGET_NO_BUILD_WIFI := true
-#TARGET_PREBUILT_MODULES := device/samsung/vzwtab/prebuilt/lib/modules/2.6.32.9
+TARGET_PREBUILT_MODULES := device/samsung/vzwtab/prebuilt/lib/modules/
 BOARD_KERNEL_CMDLINE := no_console_suspend=1 console=null
 BOARD_KERNEL_BASE := 0x02e00000
 

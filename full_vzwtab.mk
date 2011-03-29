@@ -214,11 +214,9 @@ PRODUCT_POLICY := android.policy_phone
 PRODUCT_BUILD_PROP_OVERRIDES := BUILD_ID=FROYO BUILD_DISPLAY_ID=FROYO.DJ11 PRODUCT_NAME=SCH-I800 TARGET_DEVICE=SCH-I800 PRODUCT_MODEL=SCH-I800 PRODUCT_BRAND=verizon BUILD_FINGERPRINT=verizon/SCH-I800/SCH-I800/SCH-I800:2.2.1/FROYO/DJ11:user/release-keys PRIVATE_BUILD_DESC="SCH-I800-user 2.2.1 FROYO DJ11 release-keys"
 
 PRODUCT_PROPERTY_OVERRIDES += \
-        ro.modversion=Vanilla_FroYo_Tab-v0.9.3
+        ro.modversion=Vanilla_FroYo_Tab-v0.9.3 \
+        ro.sf.hwrotation=90
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	dalvik.vm.execution-mode=int:jit
-
-PRODUCT_PROPERTY_OVERRIDES += \
-        ro.sf.hwrotation=90
 
