@@ -105,7 +105,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_COPY_FILES += \
     device/samsung/vzwtab/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml
 
-# gps stuff from DJ05
+# gps stuff from DJ11
 PRODUCT_COPY_FILES += \
     device/samsung/vzwtab/prebuilt/etc/gps.conf:system/etc/gps.conf \
     device/samsung/vzwtab/prebuilt/lib/libgps.so:system/lib/libgps.so \
