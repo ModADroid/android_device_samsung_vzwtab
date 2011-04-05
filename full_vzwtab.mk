@@ -175,7 +175,6 @@ PRODUCT_COPY_FILES += \
     vendor/samsung/vzwtab/proprietary/etc/wifi/nvram_net_lna.txt:system/etc/wifi/nvram_net_lna.txt \
     vendor/samsung/vzwtab/proprietary/etc/wifi/nvram_net_nolna.txt:system/etc/wifi/nvram_net_nolna.txt \
     vendor/samsung/vzwtab/proprietary/bin/mfgloader:system/bin/mfgloader\
-    vendor/samsung/vzwtab/proprietary/lib/hw/copybit.s5pc110.so:system/lib/hw/copybit.s5pc110.so\
     vendor/samsung/vzwtab/proprietary/bin/killmediaserver:system/bin/killmediaserver\
     vendor/samsung/vzwtab/proprietary/bin/notified_event:system/bin/notified_event\
     vendor/samsung/vzwtab/proprietary/lib/libtvoutservice.so:system/lib/libtvoutservice.so \
