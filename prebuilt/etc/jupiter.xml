@@ -2,22 +2,22 @@
 <glgps xmlns="http://www.glpals.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.glpals.com/ glconfig.xsd" >
   <!--HAL Confguration  -->
   <hal 
-	  acPortName="/dev/s3c2410_serial1" lBaudRate="115200"  cLogEnabled="false" acLogDirectory="/sdcard/gps/log/" ltoFileName="lto.dat" 
-       enhanced-assisted="false" cp-enhanced-assisted="false" TISEnabled="false" RILEnabled="true" LPmode="false"  cp-cold-start="false" cp-guard-time-sec="2"
+	  acPortName="/dev/s3c2410_serial1" lBaudRate="115200"  cLogEnabled="false" acLogDirectory="/data/gps/log/" ltoFileName="lto.dat" 
+       enhanced-assisted="false" cp-enhanced-assisted="true" TISEnabled="false" RILEnabled="true" LPmode="false"
               
-       arp-supl-enable="true" arp-supl-cap-msb="true" arp-supl-cap-msa="true" arp-supl-cap-ecid="false" arp-supl-reaiding-time-sec="1200"
-	   acSuplServer="supl.google.com" SuplPort="7276"        
+       arp-supl-enable="true" arp-supl-cap-msb="true" arp-supl-cap-msa="true" arp-supl-cap-ecid="false"
+	   acSuplServer="www.spirent-lcs.com" SuplPort="7275" tlsCertPath="/system/bin/gpsd/"
+       
        LbsEnable="true" LbsLocal="false" LbsServer="bcmls2.glpals.com" LbsPort="7275" LbsSyncTimeSec = "60" LbsSyncLto="true" LbsSyncCells="true"
-       LbsGetGpsAssistance="false"
-       LbsSyncLtoThresholdDays="3"
+
        acNmeaOutName="/data/gpspipe"  
-       gpioNStdbyPath="/sys/class/sec/gps/GPS_PWR_EN/value"
-       gpioNResetPath="/sys/class/sec/gps/GPS_nRST/value"
+       gpioNStdbyPath="/sys/class/gpio/gpio121/value"
+       gpioNResetPath="/sys/class/gpio/gpio120/value"
        ctrlPipe="/data/gps/glgpsctrl"
        lcsApiSockName="/data/gps/lcs.socket" 
        acNvStoDir="/data/gps/"
        />
-       
+
   <!-- Parameters passed to GlEngine   -->
   <!--gll
          LogPriMask="LOG_DEBUG"
@@ -33,13 +33,13 @@
 
   <gll 
        LogPriMask="LOG_DEBUG"
-       LogFacMask="LOG_GLLAPI | LOG_DEVIA | LOG_NMEA | LOG_RAWDATA | LOG_DEVMS | LOG_ASIC_IO | LOG_BBTEST | LOG_DEVET | LOG_MESM | LOG_DEVKF | LOG_DEVJG | LOG_DEVMR" 
-       FrqPlan="FRQ_PLAN_26MHZ_2PPM_26MHZ_300PPB"     
-       RfType="GL_RF_4751_DANUBE_EXT_LNA"   
+       LogFacMask="LOG_GLLAPI | LOG_NMEA" 
+       FrqPlan="FRQ_PLAN_26MHZ_2PPM_26MHZ_300PPB"   
+       RfType="GL_RF_4751_DANUBE"   
+       BrcmRFwildBase="0x1E2D6409"
+       BrcmRFclkDiv="21"
+       BrcmRFclkRefHz="26000000"
        pps-enable="false" pps-offset-ms="0" pps-width-ns="100" 
-       WarmStandbyTimeout1Seconds="5"
-       WarmStandbyTimeout2Seconds="10"
-       CNoSmoothEnable="true"
   />
 
   <!-- List of jobs can be performed by the GPS controller    -->
@@ -47,7 +47,7 @@
   <!-- The default job  all parameters are set to default values  -->
   <job id="normal">
       <task >
-      	<req_pos/>
+      	<startup ignore_osc="true"  ignore_rom_alm="true"  ignore_nav="true" ignore_pos="true" ignore_ram_alm="true" ignore_time="true"/>
       </task>
     </job>
 

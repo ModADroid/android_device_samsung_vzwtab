@@ -1,11 +1,8 @@
-on early-init
-    start ueventd
-
 on init
 
 sysclktz 0
 
-loglevel 9
+loglevel 3
 
 # setup the global environment
     export PATH /sbin:/system/sbin:/bin:/system/bin:/system/xbin
@@ -24,28 +21,22 @@ loglevel 9
     export TMPDIR /data/local/tmp
     export TERMINFO /system/etc/terminfo
 
-# ko files for 3D
+    # ko files for 3D
     insmod /modules/pvrsrvkm.ko
     insmod /modules/s3c_lcd.ko
     insmod /modules/s3c_bc.ko
 
-# other modules
+    # ko files for vibrator
     insmod /lib/modules/vibrator.ko
+
     insmod /lib/modules/fsr.ko
     insmod /lib/modules/fsr_stl.ko
     insmod /lib/modules/rfs_glue.ko
     insmod /lib/modules/rfs_fat.ko
+    insmod /lib/modules/dpram_vzw.ko
 
-    insmod /lib/modules/onedram.ko
-    insmod /lib/modules/svnet.ko
-    insmod /lib/modules/modemctl.ko
-    insmod /lib/modules/storage.ko
-    insmod /lib/modules/bthid.ko
-
-# Backwards Compat - XXX: Going away in G*
+# Backward compatibility
     symlink /system/etc /etc
-    symlink /mnt/sdcard /sdcard
-    symlink /mnt/emmc /emmc
     symlink /sys/kernel/debug /d
 
 # Interface for Wifi
@@ -60,7 +51,7 @@ loglevel 9
     mkdir /acct
     mount cgroup none /acct cpuacct
     mkdir /acct/uid
-
+    
 # parameter block
 # LFS
     mkdir /mnt/.lfs 0755 root root
@@ -116,27 +107,17 @@ loglevel 9
     # 5.0 %
     write /dev/cpuctl/bg_non_interactive/cpu.shares 52
 
-# SYSTEM
-    mkdir /system
-    # Mount /system rw first to give the filesystem a chance to save a checkpoint
-    # mount yaffs2 mtd@system /system 
-    #mount ext2 /dev/block/stl9 /system ro noatime nodiratime nodev
-    mount ext4 /dev/block/stl9 /system wait nodev noatime nodiratime noauto_da_alloc
+# system
+    mount rfs /dev/block/stl9 /system ro check=no
 
-# DATA
-    # We chown/chmod /data again so because mount is run as root + defaults
-    # mount yaffs2 mtd@userdata /data nosuid nodev
-    exec apply_disk_policy
+# data
     mkdir /data 0771 system system
-    mount ext4 /dev/block/mmcblk0p2 /data  wait nosuid nodev noatime nodiratime noauto_da_alloc
-    #mount rfs /dev/block/mmcblk0p2 /data nosuid nodev check=no
+    mount rfs /dev/block/mmcblk0p2 /data nosuid nodev check=no
     chown system system /data
     chmod 0771 /data
 
-# DBDATA
     mkdir /dbdata
-    mount ext4 /dev/block/stl10 /dbdata  wait nosuid nodev noatime nodiratime noauto_da_alloc
-    #mount rfs /dev/block/stl10 /dbdata nosuid nodev check=no
+    mount rfs /dev/block/stl10 /dbdata nosuid nodev check=no
     chown system system /dbdata
     chmod 0771 /dbdata
     chmod 0771 /dbdata
@@ -146,11 +127,11 @@ loglevel 9
     mkdir /dbdata/system
     chown system system /dbdata/system
     chmod 0775 /dbdata/system
-
+    
     # Create dump dir and collect dumps.
     # Do this before we mount cache so eventually we can use cache for
     # storing dumps on platforms which do not have a dedicated dump partition.
-
+   
     mkdir /data/dontpanic
     chown root log /data/dontpanic
     chmod 0750 /data/dontpanic
@@ -166,24 +147,21 @@ loglevel 9
 
     write /proc/apanic_console 1
 
-# CACHE
+    # Same reason as /data above
     mkdir /cache 0771 system cache
-    #mount yaffs2 mtd@cache /cache nosuid nodev
-    mount ext4 /dev/block/stl11 /cache nosuid nodev noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
-    #mount rfs /dev/block/stl11 /cache nosuid nodev check=no
+    mount rfs /dev/block/mmcblk0p1 /cache nosuid nodev check=no
     chown system cache /cache
     chmod 0771 /cache
+    
+    mount rfs /dev/block/stl11 /mnt/cache nosuid nodev check=no
+    chown system cache /mnt/cache
+    chmod 0771 /mnt/cache
 
     # This may have been created by the recovery system with odd permissions
     chown system cache /cache/recovery
     chmod 0770 /cache/recovery
-# EFS
-    mkdir /efs 0771 system system
-    mount rfs /dev/block/stl3 /efs nosuid nodev check=no
-    chown radio radio /efs
-    chmod 0771 /efs
 
-#change permissions on vmallocinfo so we can grab it from bugreports
+    #change permissions on vmallocinfo so we can grab it from bugreports
     chown root log /proc/vmallocinfo
     chmod 0440 /proc/vmallocinfo
 
@@ -192,7 +170,6 @@ loglevel 9
     chmod 0440 /proc/kmsg
     chown root system /proc/sysrq-trigger
     chmod 0220 /proc/sysrq-trigger
-
 
 # create data/gps for GPS demon
     mkdir /data/gps 700 gps system
@@ -209,7 +186,6 @@ loglevel 9
     chmod 664 /sys/class/gpio/gpio121/value
     chown root system /sys/class/gpio/gpio120/value
     chmod 664 /sys/class/gpio/gpio120/value
-
 
 # create basic filesystem structure
     mkdir /data/misc 01771 system misc
@@ -249,16 +225,10 @@ loglevel 9
     chown system system /data/dalvik-cache
     chmod 0771 /data/dalvik-cache
 
-    #mkdir /cache/dalvik-cache 0771 system system
-    #chown system system /cache/dalvik-cache
-    #chmod 0771 /cache/dalvik-cache
-
-# use dbdata partition for /cache/dalvik-cache
-# because stl11 is too small
-    mkdir /dbdata/dalvik-cache
-    chown system system /dbdata/dalvik-cache
-    chmod 0771 /dbdata/dalvik-cache
-    symlink /dbdata/dalvik-cache /cache/dalvik-cache
+    # create dalvik-cache and double-check the perms
+    mkdir /cache/dalvik-cache 0771 system system
+    chown system system /cache/dalvik-cache
+    chmod 0771 /cache/dalvik-cache
 
     # create the lost+found directories, so as to enforce our permissions
     mkdir /data/lost+found 0770
@@ -269,7 +239,7 @@ loglevel 9
     chmod 0770 /data/lost+found
     chown root root /cache/lost+found
     chmod 0770 /cache/lost+found
-
+    
     chown radio radio /dev/dpramerr
     chown radio radio /dev/dpram0
     chown radio radio /dev/dpram1
@@ -356,7 +326,7 @@ on boot
     write /proc/1/oom_adj -16
 
     # Tweak background writeout
-    write /proc/sys/vm/dirty_expire_centisecs 200
+    write /proc/sys/vm/dirty_writeback_centisecs 250
     write /proc/sys/vm/dirty_background_ratio  5
 
     # Permissions
@@ -406,8 +376,8 @@ on boot
 # Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
     setprop net.tcp.buffersize.default 4096,87380,110208,4096,16384,110208
-    setprop net.tcp.buffersize.wifi    4095,87380,110208,4096,16384,110208
-    setprop net.tcp.buffersize.umts    4094,87380,110208,4096,16384,110208
+    setprop net.tcp.buffersize.wifi    4095,65535,196608,4096,16384,110208
+    setprop net.tcp.buffersize.umts    4094,87380,196608,4096,16384,110208
     setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
     setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
 
@@ -492,10 +462,10 @@ service vold /system/bin/vold
     socket vold stream 0660 root mount
     ioprio be 2
 
-#service notified_event /system/bin/notified_event
-#    user system
-#    group system
-#    socket notified_event stream 0660 root system
+service notified_event /system/bin/notified_event
+    user system
+    group system
+    socket notified_event stream 0660 root system
 
 service netd /system/bin/netd
     socket netd stream 0660 root system
@@ -506,16 +476,22 @@ service dnsmasq /system/bin/logwrapper /system/bin/dnsmasq -d
 
 service debuggerd /system/bin/debuggerd
 
-service ril-daemon /system/bin/rild -l /system/lib/libsec-ril.so -- -d /dev/ttyS0
+service ril-daemon /system/bin/rild
     socket rild stream 660 root radio
     socket rild-debug stream 660 radio system
     user root
     group radio cache inet misc audio
 
-service gpsd /system/bin/gpsd -c /system/etc/gps.xml
-    socket gps seqpacket 0660 gps system
-    user gps
-    group system inet
+#service gpsd /system/bin/gpsd -c /system/etc/gps.xml
+#    socket gps seqpacket 0660 gps system
+#    user gps
+#    group system inet
+
+service pppd_cdma /system/bin/pppd /dev/ttyCDMA0 115200 user VerizonWireless nodetach usepeerdns defaultroute
+   user root
+   group radio cache inet misc system
+   disabled
+   oneshot
 
 service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server
     socket zygote stream 666
@@ -546,7 +522,7 @@ service wpa_supplicant /system/bin/wpa_supplicant -Dwext -ieth0 -c/data/misc/wif
     disabled
     oneshot
 
-service dhcpcd /system/bin/dhcpcd -ABLK eth0
+service dhcpcd /system/bin/dhcpcd eth0
     disabled
     oneshot
 
@@ -560,7 +536,7 @@ service dbus /system/bin/dbus-daemon --system --nofork
     user root
     group root net_bt_admin
 
-service hciattach /system/bin/brcm_patchram_plus -d --enable_hci --baudrate 3000000 --patchram /system/bin/BCM4329B1_002.002.023.0534.0590.hcd /dev/s3c2410_serial0
+service hciattach /system/bin/brcm_patchram_plus -d --enable_hci --baudrate 3000000 --patchram /system/bin/BCM4329B1_002.002.023.0534.0571.hcd /dev/s3c2410_serial0
     user bluetooth
     group bluetooth net_bt_admin
     disabled
@@ -640,3 +616,9 @@ service dumpstate /system/bin/dumpstate -s
 service reboot /system/xbin/shutdown -r
     disabled
     oneshot
+
+on property:net.cdma.data_ready=true
+    start pppd_cdma
+
+on property:net.cdma.data_ready=false
+    stop pppd_cdma

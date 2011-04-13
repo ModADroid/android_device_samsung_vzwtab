@@ -27,14 +27,14 @@ $(call inherit-product, device/common/gps/gps_us_supl.mk)
 ## (1) First, the most specific values, i.e. the aspects that are specific to GSM
 
 ## (2) Also get non-open-source GSM-specific aspects if available
-$(call inherit-product-if-exists, vendor/samsung/common/GT-P1000/GT-P1000-vendor.mk)
+$(call inherit-product-if-exists, vendor/samsung/common/SCH-I800/SCH-I800-vendor.mk)
 
 ## (3) Finally, the least specific parts, i.e. the non-GSM-specific aspects
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=200 \
     ro.sf.hwrotation=0 \
-    rild.libpath=/system/lib/libsec-ril.so \
+    rild.libpath=/system/lib/libsec-ril40.so \
     rild.libargs=-d[SPACE]/dev/ttyS0 \
     wifi.interface=eth0 \
     wifi.supplicant_scan_interval=15 \
@@ -46,6 +46,33 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.opengles.version=131072
 
+#verizon cdma stuff
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.cdma.home.operator.numeric=310004 \
+    ro.cdma.home.operator.alpha=Verizon \
+    ro.cdma.homesystem=64,65,76,77,78,79,80,81,82,83 \
+    net.dns1=8.8.8.8 \
+    net.dns2=8.8.4.4 \
+    ro.config.vc_call_vol_steps=7 \
+    ro.cdma.otaspnumschema=SELC,1,80,99 \
+    ro.telephony.call_ring.multiple=false \
+    ro.telephony.call_ring.delay=3000 \
+    net.cdma.pppd.authtype=require-chap \
+    net.cdma.pppd.user=user[SPACE]VerizonWireless \
+    net.cdma.datalinkinterface=/dev/ttyCDMA0 \
+    net.interfaces.defaultroute=cdma \
+    net.cdma.ppp.interface=ppp0 \
+    net.connectivity.type=CDMA1 \
+    gsm.operator.alpha=VzW \
+    gsm.operator.numeric=310012 \
+    gsm.operator.iso-country=us \
+    gsm.operator.isroaming=false \
+    gsm.current.phone-type=2 \
+    ro.csc.sales_code=VZW \
+    ril.sales_code=VZW \
+    ro.carrier=Verizon \
+    mobiledata.interfaces=eth0,ppp0
+
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -55,11 +82,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Galaxy S uses high-density artwork where available
 PRODUCT_LOCALES += hdpi
-
-# For emmc phone storage
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.phone_storage = 1 \
-    ro.additionalmounts=/mnt/emmc
 
 # For mobiledatainterfaces
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -77,10 +99,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     phone.ril.classname = com.android.internal.telephony.SamsungRIL
 
-DEVICE_PACKAGE_OVERLAYS += device/samsung/galaxytab/overlay
+DEVICE_PACKAGE_OVERLAYS += device/samsung/vzwgalaxytab/overlay
 
 # media profiles and capabilities spec
-$(call inherit-product, device/samsung/galaxytab/media_a1026.mk)
+$(call inherit-product, device/samsung/vzwgalaxytab/media_a1026.mk)
 
 # media config xml file
 PRODUCT_COPY_FILES += \
@@ -88,7 +110,7 @@ PRODUCT_COPY_FILES += \
 
 # additional postinit scripts
 PRODUCT_COPY_FILES += \
-    device/samsung/galaxytab/prebuilt/etc/init.d/10htccopyright:system/etc/init.d/10htccopyright
+    device/samsung/vzwgalaxytab/prebuilt/etc/init.d/10htccopyright:system/etc/init.d/10htccopyright
 
 # Install the features available on this device.
 PRODUCT_COPY_FILES += \
@@ -135,11 +157,11 @@ PRODUCT_COPY_FILES += \
 # Misc other modules
 #    copybit.s5pc110 \
 #    overlay.s5pc110 \
-#    overlay.galaxytab \
+#    overlay.vzwgalaxytab \
 
 PRODUCT_PACKAGES += \
-    lights.galaxytab \
-    sensors.galaxytab \
+    lights.vzwgalaxytab \
+    sensors.vzwgalaxytab \
     akmd \
     libaudio
 
@@ -150,7 +172,7 @@ PRODUCT_PACKAGES += \
     libstagefrighthw
 
 
-KERNEL_BUILD := out/target/product/galaxytab/kernel_build
+KERNEL_BUILD := out/target/product/vzwgalaxytab/kernel_build
 KERNEL_TOOLCHAIN := /opt/toolchains/arm-2009q3/bin/arm-none-linux-gnueabi-
 
 PRODUCT_COPY_FILES += \
@@ -194,22 +216,22 @@ $(KERNEL_MODULES): $(KERNEL_BUILD)/.config
 	$(MAKE) -C kernel/samsung/2.6.32-tab ARCH=arm O=$(ANDROID_BUILD_TOP)/$(PRODUCT_OUT)/kernel_build CROSS_COMPILE=$(KERNEL_TOOLCHAIN) modules
 
 
-#out/target/product/galaxytab/kernel: out/target/product/galaxytab/recovery.img $(KERNEL_BUILD)/.config build_kernel
+#out/target/product/vzwgalaxytab/kernel: out/target/product/vzwgalaxytab/recovery.img $(KERNEL_BUILD)/.config build_kernel
 
-$(KERNEL_BUILD)/arch/arm/boot/zImage: out/target/product/galaxytab/recovery/root.ts $(KERNEL_BUILD)/.config
+$(KERNEL_BUILD)/arch/arm/boot/zImage: out/target/product/vzwgalaxytab/recovery/root.ts $(KERNEL_BUILD)/.config
 	@echo "BUILDING KERNEL"
-	rm -rfv out/target/product/galaxytab/recovery/root/etc
-	cp -v out/target/product/galaxytab/root/default.prop out/target/product/galaxytab/recovery/root/default.prop
+	rm -rfv out/target/product/vzwgalaxytab/recovery/root/etc
+	cp -v out/target/product/vzwgalaxytab/root/default.prop out/target/product/vzwgalaxytab/recovery/root/default.prop
 	$(MAKE) -C kernel/samsung/2.6.32-tab ARCH=arm O=$(ANDROID_BUILD_TOP)/$(PRODUCT_OUT)/kernel_build CROSS_COMPILE=$(KERNEL_TOOLCHAIN)
 
-out/target/product/galaxytab/kernel: $(KERNEL_BUILD)/arch/arm/boot/zImage
-	$(ACP) $(KERNEL_BUILD)/arch/arm/boot/zImage out/target/product/galaxytab/kernel
+out/target/product/vzwgalaxytab/kernel: $(KERNEL_BUILD)/arch/arm/boot/zImage
+	$(ACP) $(KERNEL_BUILD)/arch/arm/boot/zImage out/target/product/vzwgalaxytab/kernel
 
 $(call inherit-product, build/target/product/full.mk)
 
-PRODUCT_NAME := full_galaxytab
-PRODUCT_DEVICE := galaxytab
-PRODUCT_MODEL := GT-P1000
+PRODUCT_NAME := full_vzwgalaxytab
+PRODUCT_DEVICE := vzwgalaxytab
+PRODUCT_MODEL := SCH-I800
 PRODUCT_BOARD := p1
 PRODUCT_BRAND := samsung
 PRODUCT_MANUFACTURER := Samsung

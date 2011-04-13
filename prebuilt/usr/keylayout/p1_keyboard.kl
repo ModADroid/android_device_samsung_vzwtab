@@ -1,14 +1,14 @@
-key 116   POWER             WAKE
-key 359	CAMERA
-key 224	VOLUME_DOWN
-key 225	VOLUME_UP
+key 152   LOCK             WAKE
+key 359	DIGITALFRAME
+key 224	BRIGHTNESS_DOWN
+key 225	BRIGHTNESS_UP
 key 150   EXPLORER
 key 139   MENU              WAKE_DROPPED
 key 102   HOME              WAKE
 key 158   BACK              WAKE_DROPPED
 key 217   SEARCH            WAKE_DROPPED
-key 391	CALL
-key 393	ENDCALL
+key 391	MUSIC
+key 393	VIDEO
 key 207   MEDIA_PLAY_PAUSE
 key 168   MEDIA_REWIND
 key 208   MEDIA_FAST_FORWARD
@@ -33,7 +33,7 @@ key 12    MINUS
 key 13    EQUALS
 key 14    DEL
 
-key 15    TAB
+key 15	TAB
 key 16    Q
 key 17    W
 key 18    E
@@ -48,6 +48,7 @@ key 26    LEFT_BRACKET
 key 27    RIGHT_BRACKET
 key 43    BACKSLASH
 
+key 58	CAPSLOCK
 key 30    A
 key 31    S
 key 32    D
@@ -75,9 +76,13 @@ key 52    PERIOD
 key 53    SLASH
 key 54    SHIFT_RIGHT
 
-key 185   ALT_RIGHT
-key 186   ALT_LEFT
+key 183	SIP_ON_OFF
+key 184	UMLAUT
+key 185	LANG
+key 186	VOICESEARCH
 key 57    SPACE
+key 187	SIP_SETTING
+key 189	TASKMANAGER
 
 key 108   DPAD_DOWN         WAKE_DROPPED
 key 103   DPAD_UP           WAKE_DROPPED
