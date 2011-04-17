@@ -23,10 +23,10 @@
 # variant, so that it gets overwritten by the parent (which goes
 # against the traditional rules of inheritance).
 
-#TARGET_IS_GALAXYS := true
+TARGET_IS_GALAXYS := true
 BOARD_USES_FROYO_GRALLOC := true
 BOARD_USES_NEXUS_S_LIBS := true
-BOARD_USES_NEXUS_S_AUDIO := true
+#BOARD_USES_NEXUS_S_AUDIO := true
 BOARD_USES_OVERLAY := true
 BOARD_USES_COPYBIT := true
 BOARD_USES_FROYO := true
@@ -63,10 +63,10 @@ ANDROID_ARM_LINKER := true
 BOARD_NO_RGBX_8888 := true
 
 # Sound related defines
-#BOARD_USES_ALSA_AUDIO := true
-#BUILD_WITH_ALSA_UTILS := true
-#ALSA_DEFAULT_SAMPLE_RATE := 44100
-#BOARD_USES_GALAXYTAB_AUDIO := true
+BOARD_USES_ALSA_AUDIO := true
+BUILD_WITH_ALSA_UTILS := true
+ALSA_DEFAULT_SAMPLE_RATE := 44100
+BOARD_USES_GALAXYTAB_AUDIO := true
 
 # WiFi related defines
 WIFI_FIRMWARE_LOADER := "wlservice"

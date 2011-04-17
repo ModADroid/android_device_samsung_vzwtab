@@ -36,7 +36,7 @@ $(call inherit-product-if-exists, vendor/samsung/vzwtab/vzwtab-vendor.mk)
 
 ## (3)  Finally, the least specific parts, i.e. the non-GSM-specific aspects
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=200 \
+    ro.sf.lcd_density=240 \
     rild.libpath=/system/lib/libsec-ril40.so \
     rild.libargs=-d[SPACE]/dev/ttyS0 \
     wifi.interface=eth0 \
@@ -125,8 +125,7 @@ PRODUCT_COPY_FILES += \
     device/samsung/vzwtab/prebuilt/xbin/bmlunlock:system/xbin/bmlunlock \
     device/samsung/vzwtab/prebuilt/xbin/rw:system/xbin/rw \
     device/samsung/vzwtab/prebuilt/xbin/ro:system/xbin/ro \
-    device/samsung/vzwtab/prebuilt/app/Swype.apk:system/app/Swype.apk \
-    device/samsung/vzwtab/prebuilt/lib/libSwypeCore.so:system/lib/libSwypeCore.so
+    device/samsung/vzwtab/prebuilt/app/Launcher_1_5.apk:system/app/Launcher_1_5.apk
 
 # asound.conf
 PRODUCT_COPY_FILES += \
