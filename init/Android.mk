@@ -1,6 +1,6 @@
 # Copyright 2005 The Android Open Source Project
 
-ifeq ($(TARGET_DEVICE),vzwgalaxytab)
+ifeq ($(TARGET_DEVICE),galaxytab)
 
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
@@ -29,7 +29,7 @@ ifeq ($(TARGET_HAS_ANCIENT_MSMCAMERA), true)
     LOCAL_CFLAGS += -DNO_MSM_CAMDIR
 endif
 
-LOCAL_MODULE:= init.vzwgalaxytab
+LOCAL_MODULE:= init.galaxytab
 LOCAL_MODULE_STEM:= init
 LOCAL_MODULE_TAGS := eng
 

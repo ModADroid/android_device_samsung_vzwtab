@@ -1,7 +1,7 @@
 This is a beta build of CyanogenMod 7 gingerbread
 by Technomancer TCMAN-dmg on freenode.net and irc.droid-life.com
 
-Bug reports: open issues at http://github.com/techomancer/android_device_samsung_vzwgalaxytab
+Bug reports: open issues at http://github.com/techomancer/android_device_samsung_galaxytab
 
 This build is for beta testing, not for general consumption
 

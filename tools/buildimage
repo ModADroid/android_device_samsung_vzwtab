@@ -2,7 +2,7 @@
 # this script is used to unpack system.img and repack it into factoryfs image to be used for flashing the tab
 DEPTH=../../../..
 FSTYPE=ext4
-SRC=${DEPTH}/out/target/product/vzwgalaxytab
+SRC=${DEPTH}/out/target/product/galaxytab
 
 modprobe loop
 umount ./system
@@ -167,5 +167,5 @@ umount ./system
 losetup -d /dev/loop0
 sync
 
-cp ${DEPTH}/out/target/product/vzwgalaxytab/kernel_build/arch/arm/boot/zImage .
+cp ${DEPTH}/out/target/product/galaxytab/kernel_build/arch/arm/boot/zImage .
 

@@ -18,4 +18,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/device_vzwgalaxytab.mk
+    $(LOCAL_DIR)/device_galaxytab.mk

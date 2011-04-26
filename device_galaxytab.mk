@@ -33,7 +33,7 @@ $(call inherit-product-if-exists, vendor/samsung/common/SCH-I800/SCH-I800-vendor
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=200 \
-    ro.sf.hwrotation=0 \
+    ro.sf.hwrotation=90 \
     rild.libpath=/system/lib/libsec-ril40.so \
     rild.libargs=-d[SPACE]/dev/ttyS0 \
     wifi.interface=eth0 \
@@ -99,10 +99,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     phone.ril.classname = com.android.internal.telephony.SamsungRIL
 
-DEVICE_PACKAGE_OVERLAYS += device/samsung/vzwgalaxytab/overlay
+DEVICE_PACKAGE_OVERLAYS += device/samsung/galaxytab/overlay
 
 # media profiles and capabilities spec
-$(call inherit-product, device/samsung/vzwgalaxytab/media_a1026.mk)
+$(call inherit-product, device/samsung/galaxytab/media_a1026.mk)
 
 # media config xml file
 PRODUCT_COPY_FILES += \
@@ -110,7 +110,7 @@ PRODUCT_COPY_FILES += \
 
 # additional postinit scripts
 PRODUCT_COPY_FILES += \
-    device/samsung/vzwgalaxytab/prebuilt/etc/init.d/10htccopyright:system/etc/init.d/10htccopyright
+    device/samsung/galaxytab/prebuilt/etc/init.d/10htccopyright:system/etc/init.d/10htccopyright
 
 # Install the features available on this device.
 PRODUCT_COPY_FILES += \
@@ -147,21 +147,21 @@ PRODUCT_COPY_FILES += \
 #    device/samsung/common/sec_mm/sec_omx/sec_omx_core/secomxregistry:system/etc/secomxregistry
 
 # These are the OpenMAX IL modules
-#PRODUCT_PACKAGES += \
-#    libSEC_OMX_Core \
-#    libOMX.SEC.AVC.Decoder \
-#    libOMX.SEC.M4V.Decoder \
-#    libOMX.SEC.M4V.Encoder \
-#    libOMX.SEC.AVC.Encoder
+PRODUCT_PACKAGES += \
+    libSEC_OMX_Core \
+    libOMX.SEC.AVC.Decoder \
+    libOMX.SEC.M4V.Decoder \
+    libOMX.SEC.M4V.Encoder \
+    libOMX.SEC.AVC.Encoder
 
 # Misc other modules
 #    copybit.s5pc110 \
 #    overlay.s5pc110 \
-#    overlay.vzwgalaxytab \
+#    overlay.galaxytab \
 
 PRODUCT_PACKAGES += \
-    lights.vzwgalaxytab \
-    sensors.vzwgalaxytab \
+    lights.galaxytab \
+    sensors.galaxytab \
     akmd \
     libaudio
 
@@ -171,66 +171,47 @@ PRODUCT_PACKAGES += \
     libcamera \
     libstagefrighthw
 
-
-KERNEL_BUILD := out/target/product/vzwgalaxytab/kernel_build
-KERNEL_TOOLCHAIN := /opt/toolchains/arm-2009q3/bin/arm-none-linux-gnueabi-
+ifeq ($(TARGET_PREBUILT_KERNEL),)
+LOCAL_KERNEL := $(LOCAL_PATH)/kernel
+else
+LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
+endif
 
 PRODUCT_COPY_FILES += \
-    $(KERNEL_BUILD)/fs/cifs/cifs.ko:system/lib/modules/2.6.32.9/cifs.ko \
-    $(KERNEL_BUILD)/drivers/net/tun.ko:system/lib/modules/2.6.32.9/tun.ko
+    $(LOCAL_KERNEL):kernel
 
 # kernel modules we built
+#PRODUCT_COPY_FILES += \
+#    kernel-galaxytab/fs/cifs/cifs.ko:system/lib/modules/2.6.32.9/cifs.ko \
+#    kernel-galaxytab/drivers/net/tun.ko:system/lib/modules/2.6.32.9/tun.ko
+
+# kernel modules we built
+#PRODUCT_COPY_FILES += \
+#    kernel-galaxytab/drivers/onedram/onedram.ko:root/lib/modules/onedram.ko \
+#    kernel-galaxytab/drivers/svnet/svnet.ko:root/lib/modules/svnet.ko \
+#    kernel-galaxytab/drivers/scsi/scsi_wait_scan.ko:root/lib/modules/scsi_wait_scan.ko \
+#    kernel-galaxytab/drivers/modemctl/modemctl.ko:root/lib/modules/modemctl.ko \
+#    kernel-galaxytab/drivers/misc/vibtonz/vibrator.ko:root/lib/modules/vibrator.ko \
+#    kernel-galaxytab/drivers/bluetooth/bthid/bthid.ko:root/lib/modules/bthid.ko \
+#    kernel-galaxytab/drivers/net/wireless/bcm4329/dhd.ko:root/lib/modules/dhd.ko \
+#    kernel-galaxytab/drivers/gpu/pvr/s3c_bc.ko:root/modules/s3c_bc.ko \
+#    kernel-galaxytab/drivers/gpu/pvr/s3c_lcd.ko:root/modules/s3c_lcd.ko \
+#    kernel-galaxytab/drivers/gpu/pvr/pvrsrvkm.ko:root/modules/pvrsrvkm.ko
+
+# binary kernel modules we dont have sources for
 PRODUCT_COPY_FILES += \
-    $(KERNEL_BUILD)/drivers/onedram/onedram.ko:recovery/root/lib/modules/onedram.ko \
-    $(KERNEL_BUILD)/drivers/svnet/svnet.ko:recovery/root/lib/modules/svnet.ko \
-    $(KERNEL_BUILD)/drivers/scsi/scsi_wait_scan.ko:recovery/root/lib/modules/scsi_wait_scan.ko \
-    $(KERNEL_BUILD)/drivers/modemctl/modemctl.ko:recovery/root/lib/modules/modemctl.ko \
-    $(KERNEL_BUILD)/drivers/misc/vibtonz/vibrator.ko:recovery/root/lib/modules/vibrator.ko \
-    $(KERNEL_BUILD)/drivers/bluetooth/bthid/bthid.ko:recovery/root/lib/modules/bthid.ko \
-    $(KERNEL_BUILD)/drivers/net/wireless/bcm4329/dhd.ko:recovery/root/lib/modules/dhd.ko \
-    $(KERNEL_BUILD)/drivers/gpu/pvr/s3c_bc.ko:recovery/root/modules/s3c_bc.ko \
-    $(KERNEL_BUILD)/drivers/gpu/pvr/s3c_lcd.ko:recovery/root/modules/s3c_lcd.ko \
-    $(KERNEL_BUILD)/drivers/gpu/pvr/pvrsrvkm.ko:recovery/root/modules/pvrsrvkm.ko
-
-$(KERNEL_BUILD)/.config:
-	mkdir -p $(KERNEL_BUILD)
-	$(MAKE) -C kernel/samsung/2.6.32-tab ARCH=arm O=$(ANDROID_BUILD_TOP)/$(PRODUCT_OUT)/kernel_build p1_android_rfs_eur_cm7_defconfig
-
-
-KERNEL_MODULES := \
-$(KERNEL_BUILD)/fs/cifs/cifs.ko \
-$(KERNEL_BUILD)/drivers/net/tun.ko \
-$(KERNEL_BUILD)/drivers/onedram/onedram.ko \
-$(KERNEL_BUILD)/drivers/svnet/svnet.ko \
-$(KERNEL_BUILD)/drivers/scsi/scsi_wait_scan.ko \
-$(KERNEL_BUILD)/drivers/modemctl/modemctl.ko \
-$(KERNEL_BUILD)/drivers/misc/vibtonz/vibrator.ko \
-$(KERNEL_BUILD)/drivers/bluetooth/bthid/bthid.ko \
-$(KERNEL_BUILD)/drivers/net/wireless/bcm4329/dhd.ko \
-$(KERNEL_BUILD)/drivers/gpu/pvr/s3c_bc.ko \
-$(KERNEL_BUILD)/drivers/gpu/pvr/s3c_lcd.ko \
-$(KERNEL_BUILD)/drivers/gpu/pvr/pvrsrvkm.ko
-
-$(KERNEL_MODULES): $(KERNEL_BUILD)/.config
-	@echo "BUILDING MODULES"
-	$(MAKE) -C kernel/samsung/2.6.32-tab ARCH=arm O=$(ANDROID_BUILD_TOP)/$(PRODUCT_OUT)/kernel_build CROSS_COMPILE=$(KERNEL_TOOLCHAIN) modules
-
-
-#out/target/product/vzwgalaxytab/kernel: out/target/product/vzwgalaxytab/recovery.img $(KERNEL_BUILD)/.config build_kernel
-
-$(KERNEL_BUILD)/arch/arm/boot/zImage: out/target/product/vzwgalaxytab/recovery/root.ts $(KERNEL_BUILD)/.config
-	@echo "BUILDING KERNEL"
-	rm -rfv out/target/product/vzwgalaxytab/recovery/root/etc
-	cp -v out/target/product/vzwgalaxytab/root/default.prop out/target/product/vzwgalaxytab/recovery/root/default.prop
-	$(MAKE) -C kernel/samsung/2.6.32-tab ARCH=arm O=$(ANDROID_BUILD_TOP)/$(PRODUCT_OUT)/kernel_build CROSS_COMPILE=$(KERNEL_TOOLCHAIN)
-
-out/target/product/vzwgalaxytab/kernel: $(KERNEL_BUILD)/arch/arm/boot/zImage
-	$(ACP) $(KERNEL_BUILD)/arch/arm/boot/zImage out/target/product/vzwgalaxytab/kernel
+    $(LOCAL_PATH)/prebuilt/lib/modules/fsr.ko:root/lib/modules/fsr.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/fsr_stl.ko:root/lib/modules/fsr_stl.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/j4fs.ko:root/lib/modules/j4fs.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/rfs_fat.ko:root/lib/modules/rfs_fat.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/rfs_glue.ko:root/lib/modules/rfs_glue.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/storage.ko:root/lib/modules/storage.ko \
+    $(LOCAL_PATH)/prebuilt/lib/modules/param.ko:root/lib/modules/param.ko
 
 $(call inherit-product, build/target/product/full.mk)
 
-PRODUCT_NAME := full_vzwgalaxytab
-PRODUCT_DEVICE := vzwgalaxytab
+PRODUCT_NAME := full_galaxytab
+PRODUCT_DEVICE := galaxytab
 PRODUCT_MODEL := SCH-I800
 PRODUCT_BOARD := p1
 PRODUCT_BRAND := samsung
