@@ -33,11 +33,11 @@ $(call inherit-product-if-exists, vendor/samsung/common/SCH-I800/SCH-I800-vendor
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=200 \
-    ro.sf.hwrotation=90 \
+    ro.sf.hwrotation=0 \
     rild.libpath=/system/lib/libsec-ril40.so \
     rild.libargs=-d[SPACE]/dev/ttyS0 \
     wifi.interface=eth0 \
-    wifi.supplicant_scan_interval=15 \
+    wifi.supplicant_scan_interval=90 \
     ro.wifi.channels=13 \
     ro.url.safetylegal=
 
@@ -48,30 +48,39 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 #verizon cdma stuff
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.cdma.home.operator.numeric=310004 \
-    ro.cdma.home.operator.alpha=Verizon \
-    ro.cdma.homesystem=64,65,76,77,78,79,80,81,82,83 \
-    net.dns1=8.8.8.8 \
-    net.dns2=8.8.4.4 \
-    ro.config.vc_call_vol_steps=7 \
-    ro.cdma.otaspnumschema=SELC,1,80,99 \
-    ro.telephony.call_ring.multiple=false \
-    ro.telephony.call_ring.delay=3000 \
-    net.cdma.pppd.authtype=require-chap \
-    net.cdma.pppd.user=user[SPACE]VerizonWireless \
-    net.cdma.datalinkinterface=/dev/ttyCDMA0 \
-    net.interfaces.defaultroute=cdma \
-    net.cdma.ppp.interface=ppp0 \
-    net.connectivity.type=CDMA1 \
-    gsm.operator.alpha=VzW \
-    gsm.operator.numeric=310012 \
-    gsm.operator.iso-country=us \
-    gsm.operator.isroaming=false \
-    gsm.current.phone-type=2 \
-    ro.csc.sales_code=VZW \
-    ril.sales_code=VZW \
-    ro.carrier=Verizon \
-    mobiledata.interfaces=eth0,ppp0
+	ro.telephony.default_network=4 \
+	ro.com.android.wifi-watchlist=GoogleGuest \
+	ro.error.receiver.system.apps=com.google.android.feedback \
+	ro.setupwizard.enterprise_mode=1 \
+	ro.com.google.clientidbase=android-verizon \
+	ro.com.google.clientidbase.yt=android-verizon \
+	ro.com.google.clientidbase.am=android-verizon \
+	ro.com.google.clientidbase.vs=android-verizon \
+	ro.com.google.clientidbase.gmm=android-verizon \
+	ro.com.google.locationfeatures=1 \
+	ro.ril.def.agps.mode = 2 \
+	ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html \
+	ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html \
+	ro.cdma.home.operator.numeric=310004 \
+	ro.cdma.home.operator.alpha=Verizon \
+	ro.cdma.homesystem=64,65,76,77,78,79,80,81,82,83 \
+	ro.cdma.data_retry_config=default_randomization=2000,0,0,120000,180000,540000,960000 \
+	net.dns1=8.8.8.8 \
+	net.dns2=8.8.4.4 \
+	ro.config.vc_call_vol_steps=15 \
+	ro.cdma.otaspnumschema=SELC,1,80,99 \
+	ro.telephony.call_ring.multiple=false \
+	ro.telephony.call_ring.delay=3000 \
+  	net.cdma.pppd.authtype=require-chap \
+	net.cdma.pppd.user=user[SPACE]VerizonWireless \
+	net.cdma.datalinkinterface=/dev/ttyCDMA0 \
+	net.interfaces.defaultroute=cdma \
+	net.cdma.ppp.interface=ppp0 \
+	net.connectivity.type=CDMA1 \
+	net.interfaces.defaultroute=cdma \
+	ro.csc.sales_code=VZW \
+	ril.sales_code=VZW \
+	ro.carrier=Verizon
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
@@ -80,24 +89,16 @@ PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapsize=48m \
     dalvik.vm.execution-mode=int:jit
 
-# Galaxy S uses high-density artwork where available
-PRODUCT_LOCALES += hdpi
+# Galaxy Tab uses high-density artwork where available
+PRODUCT_LOCALES := hdpi
 
 # For mobiledatainterfaces
 PRODUCT_PROPERTY_OVERRIDES += \
     mobiledata.interfaces = eth0,pdp0
 
-# For GPS
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.gps.soket = /data/gpspipe
-
-# For FM-Radio
-#PRODUCT_PROPERTY_OVERRIDES += \
-#    fmradio.device = fmradio
-
 #For RIL
-PRODUCT_PROPERTY_OVERRIDES += \
-    phone.ril.classname = com.android.internal.telephony.SamsungRIL
+#PRODUCT_PROPERTY_OVERRIDES += \
+#    phone.ril.classname = com.android.internal.telephony.SamsungRIL
 
 DEVICE_PACKAGE_OVERLAYS += device/samsung/galaxytab/overlay
 
@@ -106,11 +107,11 @@ $(call inherit-product, device/samsung/galaxytab/media_a1026.mk)
 
 # media config xml file
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/media_profiles.xml:system/etc/media_profiles.xml
+    $(LOCAL_PATH)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml
 
 # additional postinit scripts
 PRODUCT_COPY_FILES += \
-    device/samsung/galaxytab/prebuilt/etc/init.d/10htccopyright:system/etc/init.d/10htccopyright
+    $(LOCAL_PATH)/prebuilt/etc/init.d/10htccopyright:system/etc/init.d/10htccopyright
 
 # Install the features available on this device.
 PRODUCT_COPY_FILES += \
@@ -120,33 +121,39 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/base/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
-    frameworks/base/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml
+    frameworks/base/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
+    frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
+    packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
     $(LOCAL_PATH)/prebuilt/etc/asound.conf:system/etc/asound.conf \
     $(LOCAL_PATH)/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
-    $(LOCAL_PATH)/prebuilt/usr/keylayout/p1_keyboard.kl:system/usr/keylayout/p1_keyboard.kl
+    $(LOCAL_PATH)/prebuilt/etc/vold.conf:system/etc/vold.conf \
+    $(LOCAL_PATH)/prebuilt/app/FlashPlayer.apk:system/app/FlashPlayer.apk
 
+#GPS STUFFS FROM EC02
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/initramfs/init.smdkc110.rc:root/init.smdkc110.rc \
-    $(LOCAL_PATH)/initramfs/init.rc:root/init.rc \
-    $(LOCAL_PATH)/initramfs/lpm.rc:root/lpm.rc \
-    $(LOCAL_PATH)/initramfs/recovery.rc:recovery/root/recovery.rc \
-    $(LOCAL_PATH)/initramfs/recovery.fstab:recovery/root/misc/recovery.fstab \
-    $(LOCAL_PATH)/initramfs/ueventd.rc:root/ueventd.rc
+    $(LOCAL_PATH)/prebuilt/lib/libgps.so:system/lib/libgps.so \
+    $(LOCAL_PATH)/prebuilt/lib/libsecgps.so:system/lib/libsecgps.so \
+    $(LOCAL_PATH)/prebuilt/lib/libgps.so:obj/lib/libgps.so \
+    $(LOCAL_PATH)/prebuilt/lib/libsecgps.so:obj/lib/libsecgps.so 
+
+#PRODUCT_COPY_FILES += \
+#    $(LOCAL_PATH)/initramfs/init.smdkc110.rc:root/init.smdkc110.rc \
+#    $(LOCAL_PATH)/initramfs/init.rc:root/init.rc \
+#    $(LOCAL_PATH)/initramfs/lpm.rc:root/lpm.rc \
+#    $(LOCAL_PATH)/initramfs/recovery.rc:recovery/root/recovery.rc \
+#    $(LOCAL_PATH)/initramfs/recovery.fstab:recovery/root/misc/recovery.fstab \
+#    $(LOCAL_PATH)/initramfs/ueventd.rc:root/ueventd.rc
 
 
 
-# GSM APN list override one in common_full
-PRODUCT_COPY_FILES += \
-    vendor/cyanogen/prebuilt/common/etc/apns-conf.xml:system/etc/apns-conf.xml
-
-# These are the OpenMAX IL configuration files
+#These are the OpenMAX IL configuration files
 #PRODUCT_COPY_FILES += \
 #    device/samsung/common/sec_mm/sec_omx/sec_omx_core/secomxregistry:system/etc/secomxregistry
 
-# These are the OpenMAX IL modules
+#These are the OpenMAX IL modules
 PRODUCT_PACKAGES += \
     libSEC_OMX_Core \
     libOMX.SEC.AVC.Decoder \
@@ -154,7 +161,7 @@ PRODUCT_PACKAGES += \
     libOMX.SEC.M4V.Encoder \
     libOMX.SEC.AVC.Encoder
 
-# Misc other modules
+#Misc other modules
 #    copybit.s5pc110 \
 #    overlay.s5pc110 \
 #    overlay.galaxytab \
@@ -199,18 +206,18 @@ PRODUCT_COPY_FILES += \
 #    kernel-galaxytab/drivers/gpu/pvr/pvrsrvkm.ko:root/modules/pvrsrvkm.ko
 
 # binary kernel modules we dont have sources for
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/lib/modules/fsr.ko:root/lib/modules/fsr.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/fsr_stl.ko:root/lib/modules/fsr_stl.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/j4fs.ko:root/lib/modules/j4fs.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/rfs_fat.ko:root/lib/modules/rfs_fat.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/rfs_glue.ko:root/lib/modules/rfs_glue.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/storage.ko:root/lib/modules/storage.ko \
-    $(LOCAL_PATH)/prebuilt/lib/modules/param.ko:root/lib/modules/param.ko
+#PRODUCT_COPY_FILES += \
+#    $(LOCAL_PATH)/prebuilt/lib/modules/fsr.ko:root/lib/modules/fsr.ko \
+#    $(LOCAL_PATH)/prebuilt/lib/modules/fsr_stl.ko:root/lib/modules/fsr_stl.ko \
+#    $(LOCAL_PATH)/prebuilt/lib/modules/j4fs.ko:root/lib/modules/j4fs.ko \
+#    $(LOCAL_PATH)/prebuilt/lib/modules/rfs_fat.ko:root/lib/modules/rfs_fat.ko \
+#    $(LOCAL_PATH)/prebuilt/lib/modules/rfs_glue.ko:root/lib/modules/rfs_glue.ko \
+#    $(LOCAL_PATH)/prebuilt/lib/modules/storage.ko:root/lib/modules/storage.ko \
+#    $(LOCAL_PATH)/prebuilt/lib/modules/param.ko:root/lib/modules/param.ko
 
 $(call inherit-product, build/target/product/full.mk)
 
-PRODUCT_NAME := full_galaxytab
+PRODUCT_NAME := samsung_galaxytab
 PRODUCT_DEVICE := galaxytab
 PRODUCT_MODEL := SCH-I800
 PRODUCT_BOARD := p1
