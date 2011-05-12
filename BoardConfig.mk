@@ -94,9 +94,9 @@ WIFI_DRIVER_FW_STA_PATH := "/system/etc/wifi/bcm4329_sta.bin"
 WIFI_DRIVER_FW_AP_PATH := "/system/etc/wifi/bcm4329_aps.bin"
 WIFI_DRIVER_MODULE_ARG := "firmware_path=/system/etc/wifi/bcm4329_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt dhd_watchdog_ms=10 dhd_poll=1"
 WIFI_DRIVER_APS_FIRMWARE_NAME := "/system/etc/wifi/bcm4329_aps.bin"
-WIFI_DRIVER_STA_FIRMWARE_NAME := "/system/etc/wifi/bcm4329_sta.bin
-WIFI_IFACE_DIR := "/data/misc/wifi"
-CONFIG_DRIVER_WEXT := true
+WIFI_DRIVER_STA_FIRMWARE_NAME := "/system/etc/wifi/bcm4329_sta.bin"
+#WIFI_IFACE_DIR := "/data/misc/wifi"
+#CONFIG_DRIVER_WEXT := true
 BOARD_WEXT_NO_COMBO_SCAN := true
 
 USE_CAMERA_STUB := true
@@ -112,7 +112,7 @@ BOARD_SECOND_CAMERA_DEVICE := /dev/video2
 BOARD_EGL_CFG := vendor/samsung/common/SCH-I800/proprietary/egl/egl.cfg
 TARGET_BOARD_PLATFORM_GPU := POWERVR_SGX540_120
 BOARD_NO_RGBX_8888 := true
-BOARD_USES_FROYO_GRALLOC := true
+#BOARD_USES_FROYO_GRALLOC := true
 
 # Device related defines
 #BOARD_KERNEL_CMDLINE := console=ttySAC2,115200 loglevel=4
