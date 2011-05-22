@@ -69,7 +69,7 @@ TARGET_PROVIDES_INIT := true
 TARGET_PROVIDES_INIT_TARGET_RC := true
 TARGET_BOARD_PLATFORM := s5pc110
 TARGET_BOARD_PLATFORM_GPU := POWERVR_SGX540_120
-TARGET_BOOTLOADER_BOARD_NAME := s5pc110
+TARGET_BOOTLOADER_BOARD_NAME := galaxytab
 # override recovery init.rc with the default init.rc
 #TARGET_RECOVERY_INITRC := device/samsung/galaxytab/initramfs/init.rc
 BOARD_PROVIDES_BOOTMODE := true

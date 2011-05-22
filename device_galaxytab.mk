@@ -169,6 +169,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     lights.galaxytab \
     sensors.galaxytab \
+    gps.galaxytab \
     akmd \
     libaudio
 
