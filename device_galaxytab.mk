@@ -32,7 +32,7 @@ $(call inherit-product-if-exists, vendor/samsung/common/SCH-I800/SCH-I800-vendor
 ## (3) Finally, the least specific parts, i.e. the non-GSM-specific aspects
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=240 \
+    ro.sf.lcd_density=200 \
     ro.sf.hwrotation=0 \
     rild.libpath=/system/lib/libsec-ril40.so \
     rild.libargs=-d[SPACE]/dev/ttyS0 \
@@ -148,12 +148,11 @@ PRODUCT_PACKAGES += \
     libOMX.SEC.AVC.Encoder
 
 PRODUCT_PACKAGES += \
-    lights.galaxytab \
-    sensors.galaxytab \
-    gps.galaxytab \
+    lights.s5pc110 \
+    sensors.s5pc110 \
+    gps.s5pc110 \
     akmd \
-    libaudio \
-    gps.s5pc110
+    libaudio 
 
 PRODUCT_PACKAGES += \
     sec_mm \
