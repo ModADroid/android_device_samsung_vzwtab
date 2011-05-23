@@ -25,7 +25,7 @@ BOARD_USES_GENERIC_AUDIO := false
 -include vendor/samsung/common/SCH-I800/BoardConfigVendor.mk
 
 BOARD_USES_NEXUS_S_LIBS := true
-BOARD_USES_OVERLAY := true
+#BOARD_USES_OVERLAY := true
 BOARD_USES_COPYBIT := true
 DEFAULT_FB_NUM := 0
 BOARD_OVERLAY_FORMAT_YCbCr_420_SP := true
@@ -49,9 +49,8 @@ ARCH_ARM_HAVE_TLS_REGISTER := true
 ANDROID_ARM_LINKER := true
 
 TARGET_NO_BOOTLOADER := true
-TARGET_NO_KERNEL := false
-TARGET_NO_RECOVERY := true
-#BOARD_USES_INITRAMFS := true
+#TARGET_NO_KERNEL := false
+#TARGET_NO_RECOVERY := true
 TARGET_NO_RADIOIMAGE := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HAS_NO_RECOVERY_PARTITION := true
@@ -60,13 +59,12 @@ BOARD_USES_BMLUTILS := true
 BOARD_HAS_DOWNLOAD_MODE := true
 TARGET_ROOT_IS_RECOVERY := true
 TARGET_BOOT_IS_RAMDISK := true
-BOARD_USE_USB_MASS_STORAGE_SWITCH := true
 BOARD_USES_GPSSHIM := true
 BOARD_GPS_LIBRARIES := libsecgps libgps
 
 TARGET_BOARD := SCH-I800
-TARGET_PROVIDES_INIT := true
-TARGET_PROVIDES_INIT_TARGET_RC := true
+#TARGET_PROVIDES_INIT := true
+#TARGET_PROVIDES_INIT_TARGET_RC := true
 TARGET_BOARD_PLATFORM := s5pc110
 TARGET_BOARD_PLATFORM_GPU := POWERVR_SGX540_120
 TARGET_BOOTLOADER_BOARD_NAME := galaxytab
@@ -95,11 +93,9 @@ WIFI_DRIVER_FW_AP_PATH := "/system/etc/wifi/bcm4329_aps.bin"
 WIFI_DRIVER_MODULE_ARG := "firmware_path=/system/etc/wifi/bcm4329_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt dhd_watchdog_ms=10 dhd_poll=1"
 WIFI_DRIVER_APS_FIRMWARE_NAME := "/system/etc/wifi/bcm4329_aps.bin"
 WIFI_DRIVER_STA_FIRMWARE_NAME := "/system/etc/wifi/bcm4329_sta.bin"
-#WIFI_IFACE_DIR := "/data/misc/wifi"
-#CONFIG_DRIVER_WEXT := true
 BOARD_WEXT_NO_COMBO_SCAN := true
 
-USE_CAMERA_STUB := true
+USE_CAMERA_STUB := false
 ifeq ($(USE_CAMERA_STUB),false)
 BOARD_CAMERA_LIBRARIES := libcamera
 endif
@@ -107,12 +103,10 @@ BOARD_V4L2_DEVICE := /dev/video1
 BOARD_CAMERA_DEVICE := /dev/video0
 BOARD_SECOND_CAMERA_DEVICE := /dev/video2
 
-
 # OpenGL stuff
 BOARD_EGL_CFG := vendor/samsung/common/SCH-I800/proprietary/egl/egl.cfg
 TARGET_BOARD_PLATFORM_GPU := POWERVR_SGX540_120
 BOARD_NO_RGBX_8888 := true
-#BOARD_USES_FROYO_GRALLOC := true
 
 # Device related defines
 #BOARD_KERNEL_CMDLINE := console=ttySAC2,115200 loglevel=4

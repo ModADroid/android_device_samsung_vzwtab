@@ -32,7 +32,7 @@ $(call inherit-product-if-exists, vendor/samsung/common/SCH-I800/SCH-I800-vendor
 ## (3) Finally, the least specific parts, i.e. the non-GSM-specific aspects
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=200 \
+    ro.sf.lcd_density=240 \
     ro.sf.hwrotation=0 \
     rild.libpath=/system/lib/libsec-ril40.so \
     rild.libargs=-d[SPACE]/dev/ttyS0 \
@@ -117,7 +117,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
-    frameworks/base/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
+    frameworks/base/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml \
     frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/base/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
@@ -139,20 +139,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/lib/libgps.so:obj/lib/libgps.so \
     $(LOCAL_PATH)/prebuilt/lib/libsecgps.so:obj/lib/libsecgps.so 
 
-#PRODUCT_COPY_FILES += \
-#    $(LOCAL_PATH)/initramfs/init.smdkc110.rc:root/init.smdkc110.rc \
-#    $(LOCAL_PATH)/initramfs/init.rc:root/init.rc \
-#    $(LOCAL_PATH)/initramfs/lpm.rc:root/lpm.rc \
-#    $(LOCAL_PATH)/initramfs/recovery.rc:recovery/root/recovery.rc \
-#    $(LOCAL_PATH)/initramfs/recovery.fstab:recovery/root/misc/recovery.fstab \
-#    $(LOCAL_PATH)/initramfs/ueventd.rc:root/ueventd.rc
-
-
-
-#These are the OpenMAX IL configuration files
-#PRODUCT_COPY_FILES += \
-#    device/samsung/common/sec_mm/sec_omx/sec_omx_core/secomxregistry:system/etc/secomxregistry
-
 #These are the OpenMAX IL modules
 PRODUCT_PACKAGES += \
     libSEC_OMX_Core \
@@ -161,17 +147,13 @@ PRODUCT_PACKAGES += \
     libOMX.SEC.M4V.Encoder \
     libOMX.SEC.AVC.Encoder
 
-#Misc other modules
-#    copybit.s5pc110 \
-#    overlay.s5pc110 \
-#    overlay.galaxytab \
-
 PRODUCT_PACKAGES += \
     lights.galaxytab \
     sensors.galaxytab \
     gps.galaxytab \
     akmd \
-    libaudio
+    libaudio \
+    gps.s5pc110
 
 PRODUCT_PACKAGES += \
     sec_mm \
@@ -187,34 +169,6 @@ endif
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
-
-# kernel modules we built
-#PRODUCT_COPY_FILES += \
-#    kernel-galaxytab/fs/cifs/cifs.ko:system/lib/modules/2.6.32.9/cifs.ko \
-#    kernel-galaxytab/drivers/net/tun.ko:system/lib/modules/2.6.32.9/tun.ko
-
-# kernel modules we built
-#PRODUCT_COPY_FILES += \
-#    kernel-galaxytab/drivers/onedram/onedram.ko:root/lib/modules/onedram.ko \
-#    kernel-galaxytab/drivers/svnet/svnet.ko:root/lib/modules/svnet.ko \
-#    kernel-galaxytab/drivers/scsi/scsi_wait_scan.ko:root/lib/modules/scsi_wait_scan.ko \
-#    kernel-galaxytab/drivers/modemctl/modemctl.ko:root/lib/modules/modemctl.ko \
-#    kernel-galaxytab/drivers/misc/vibtonz/vibrator.ko:root/lib/modules/vibrator.ko \
-#    kernel-galaxytab/drivers/bluetooth/bthid/bthid.ko:root/lib/modules/bthid.ko \
-#    kernel-galaxytab/drivers/net/wireless/bcm4329/dhd.ko:root/lib/modules/dhd.ko \
-#    kernel-galaxytab/drivers/gpu/pvr/s3c_bc.ko:root/modules/s3c_bc.ko \
-#    kernel-galaxytab/drivers/gpu/pvr/s3c_lcd.ko:root/modules/s3c_lcd.ko \
-#    kernel-galaxytab/drivers/gpu/pvr/pvrsrvkm.ko:root/modules/pvrsrvkm.ko
-
-# binary kernel modules we dont have sources for
-#PRODUCT_COPY_FILES += \
-#    $(LOCAL_PATH)/prebuilt/lib/modules/fsr.ko:root/lib/modules/fsr.ko \
-#    $(LOCAL_PATH)/prebuilt/lib/modules/fsr_stl.ko:root/lib/modules/fsr_stl.ko \
-#    $(LOCAL_PATH)/prebuilt/lib/modules/j4fs.ko:root/lib/modules/j4fs.ko \
-#    $(LOCAL_PATH)/prebuilt/lib/modules/rfs_fat.ko:root/lib/modules/rfs_fat.ko \
-#    $(LOCAL_PATH)/prebuilt/lib/modules/rfs_glue.ko:root/lib/modules/rfs_glue.ko \
-#    $(LOCAL_PATH)/prebuilt/lib/modules/storage.ko:root/lib/modules/storage.ko \
-#    $(LOCAL_PATH)/prebuilt/lib/modules/param.ko:root/lib/modules/param.ko
 
 $(call inherit-product, build/target/product/full.mk)
 
