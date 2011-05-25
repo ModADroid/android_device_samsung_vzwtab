@@ -67,7 +67,7 @@ TARGET_BOARD := SCH-I800
 #TARGET_PROVIDES_INIT_TARGET_RC := true
 TARGET_BOARD_PLATFORM := s5pc110
 TARGET_BOARD_PLATFORM_GPU := POWERVR_SGX540_120
-TARGET_BOOTLOADER_BOARD_NAME := s5pc110
+TARGET_BOOTLOADER_BOARD_NAME := galaxytab
 # override recovery init.rc with the default init.rc
 #TARGET_RECOVERY_INITRC := device/samsung/galaxytab/initramfs/init.rc
 BOARD_PROVIDES_BOOTMODE := true
@@ -93,6 +93,8 @@ WIFI_DRIVER_FW_AP_PATH := "/system/etc/wifi/bcm4329_aps.bin"
 WIFI_DRIVER_MODULE_ARG := "firmware_path=/system/etc/wifi/bcm4329_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt dhd_watchdog_ms=10 dhd_poll=1"
 WIFI_DRIVER_APS_FIRMWARE_NAME := "/system/etc/wifi/bcm4329_aps.bin"
 WIFI_DRIVER_STA_FIRMWARE_NAME := "/system/etc/wifi/bcm4329_sta.bin"
+WIFI_IFACE_DIR := "/data/misc/wifi"
+CONFIG_DRIVER_WEXT := true
 BOARD_WEXT_NO_COMBO_SCAN := true
 
 USE_CAMERA_STUB := false
